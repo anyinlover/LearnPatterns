@@ -3,12 +3,30 @@
 
 #include <memory>
 #include <iostream>
-#include "State.h"
+// #include "HasQuarterState.h"
+// #include "NoQuarterState.h"
+// #include "SoldOutState.h"
+// #include "SoldState.h"
+// #include "WinnerState.h"
 
-class GumballMachine : public std::enable_shared_from_this<GumballMachine> {
+class State;
+class HasQuarterState;
+class NoQuarterState;
+class SoldOutState;
+class SoldState;
+class WinnerState;
+
+class GumballMachine {
 public:
-    GumballMachine(int numberGumballs) : count(numberGumballs) {
+    GumballMachine(int numberGumballs);
 
+    ~GumballMachine()
+    {
+        delete soldOutState;
+        delete hasQuarterState;
+        delete noQuarterState;
+        delete soldState;
+        delete winnerState;
     }
 
     void InsertQuarter()
@@ -26,10 +44,45 @@ public:
         state->TurnCrank();
         state->Dispense();
     }
-    
-    void SetState(std::unique_ptr<State> st)
+
+    int GetCount() const
     {
-        state.swap(st);
+        return count;
+    }
+
+    State* GetNoQuarterState()
+    {
+        return noQuarterState;
+    }
+
+    State* GetHasQuarterState()
+    {
+        return hasQuarterState;
+    }
+
+    State* GetSoldOutState()
+    {
+        return soldOutState;
+    }
+
+    State* GetSoldState()
+    {
+        return soldState;
+    }
+
+    State* GetWinnerState()
+    {
+        return winnerState;
+    }
+
+    State* GetState()
+    {
+        return state;
+    }
+    
+    void SetState(State* st)
+    {
+        state = st;
     }
 
     void ReleaseBall() {
@@ -39,18 +92,27 @@ public:
         }
     }
 
-    void GetNoQuarterState() const {
-        
-    }
-
 
 private:
-    std::unique_ptr<State> soldOutState;
-    std::unique_ptr<State> noQuarterState;
-    std::unique_ptr<State> hasQuarterState;
-    std::unique_ptr<State> soldState;
-    std::unique_ptr<State> state; 
+    State* soldOutState;
+    State* noQuarterState;
+    State* hasQuarterState;
+    State* soldState;
+    State* winnerState;
+    State* state; 
     int count = 0;
 };
+
+/* std::ostream& operator<<(std::ostream &os, const GumballMachine &gbm)
+{
+    os << "Inventory: " << gbm.GetCount() << " gumball";
+    if (gbm.GetCount() != 1) {
+        os << "s";
+    }
+    os << "\n";
+    os << "Machine is " << *gbm.GetState() << "\n";
+    return os;
+} */
+
 
 #endif

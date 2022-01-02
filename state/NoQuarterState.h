@@ -7,29 +7,34 @@
 
 class NoQuarterState : public State {
 public:
-    NoQuarterState(std::shared_ptr<GumballMachine> gm) {
-        gumballMachine = gm;
-    }
 
-    void InsertQuarter() {
+    void InsertQuarter() override
+    {
         std::cout << "You inserted a quarter" << std::endl;
         gumballMachine->SetState(gumballMachine->GetHasQuarterState());
     }
 
-    void EjectQuarter() {
+    void EjectQuarter() override
+    {
         std::cout << "You haven't inserted a quarter." << std::endl;
     }
 
-    void TurnCrank() {
+    void TurnCrank() override
+    {
         std::cout << "You turned, but there's no quarter" << std::endl;
     }
 
-    void Dispense() {
+    void Dispense() override
+    {
         std::cout << "You need to pay first" << std::endl;
     }
 
-private:
-    std::shared_ptr<GumballMachine> gumballMachine;
 };
+
+std::ostream& operator<<(std::ostream &os, const NoQuarterState &s)
+{
+    os << "no quarter state";
+    return os;
+}
 
 #endif

@@ -1,0 +1,5 @@
+add_subdirectory(procedural)
+add_subdirectory(oop)
+add_subdirectory(classic)
+add_subdirectory(variant)
+add_subdirectory(acyclic)

@@ -5,11 +5,11 @@
 
 int main() {
   std::unique_ptr<Duck> mallard = std::make_unique<MallardDuck>();
-  mallard->PerformQuack();
+  mallard->performQuack();
   mallard->performFly();
 
   std::unique_ptr<Duck> model = std::make_unique<ModelDuck>();
   model->performFly();
-  model->SetFlyBehavior(std::make_unique<FlyRocketPowered>());
+  model->setFlyBehavior(std::make_unique<FlyRocketPowered>());
   model->performFly();
 }
